@@ -11,7 +11,7 @@ Parameters:
 
   ResourceType:
     Type: String
-    ConstrainDescription: Resource type actions
+    ConstraintDescription: Resource type actions
     Default: 'aws:ec2:instance'
 
 Resources:
