@@ -13,7 +13,7 @@ region = "us-east-1"
 
 template = {
 
-    "ec2_fis_stop" = {
+    "ec2-fis-stop" = {
 
         stack_name = ""
         template_body = "./templates/fis/ec2-template.yml"
