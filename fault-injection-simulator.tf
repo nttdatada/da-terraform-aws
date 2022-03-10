@@ -3,6 +3,25 @@
 # Date: Qua 9 Mar 2022
 # PROJECT AWS FAULT INJECTION SERVICES - AWS EC2
 
+
+
+### AWS FIS - AWS CLOUDFORMATION ###
+
+module "fault_injection_simulator" {
+
+    source              = "git::https://github.com/nttdatada/terraform-aws-cloudformation.git"
+
+    template            = var.template
+    capabilities        = ["CAPABILITY_IAM"]
+    on_failure          = "ROLLBACK"
+    timeout_in_minutes  = 30
+
+    tags                = var.tags
+
+}
+
+
+### AWS EC2 ###
 module "ec2_test" {
 
     source = "git::https://github.com/nttdatada/terraform-aws-ec2.git"

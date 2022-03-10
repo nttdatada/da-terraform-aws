@@ -4,10 +4,28 @@
 # PROJECT AWS FAULT INJECTION SERVICES
 
 
-# GLOBALS
+### GLOBALS ###
 
 region = "us-east-1"
 
+
+### AWS FIS - AWS CLOUDFORMATION ###
+
+template = {
+
+    "ec2-fis-stop" = {
+
+        stack_name = "ec2-fis-stop"
+        template_body = "./templates/fis/ec2-template.yml"
+        parameters = {
+
+            EC2InstanceName = "caos-instance-stage"
+            ResourceType = "aws:ec2:instance"
+        }
+    }
+
+
+}
 
 /*
 # AWS RDS
