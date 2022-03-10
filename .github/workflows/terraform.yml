@@ -6,6 +6,7 @@ on:
       - master
 
 jobs:
+
   terraform:
     name: Terrafom Stack Stage
     runs-on: ubuntu-latest
@@ -84,5 +85,10 @@ jobs:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
+      
+      - name: Terraform Apply
+        run: terraform apply -var-file="environments/$(cat .terraform/environment)/variables.tfvars" -auto-approve
+
+  
 
           
