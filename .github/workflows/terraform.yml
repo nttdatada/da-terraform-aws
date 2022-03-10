@@ -87,7 +87,7 @@ jobs:
         run: exit 1
       
       - name: Terraform Apply
-        run: terraform apply -var-file="environments/$(cat .terraform/environment)/variables.tfvars" -no-color 
+        run: terraform apply -var-file="environments/$(cat .terraform/environment)/variables.tfvars" -auto-approve
 
   
 
