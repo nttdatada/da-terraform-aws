@@ -15,7 +15,7 @@ template = {
 
     "ec2-fis-stop" = {
 
-        stack_name = ""
+        stack_name = "ec2-fis-stop"
         template_body = "./templates/fis/ec2-template.yml"
         parameters = {
 
