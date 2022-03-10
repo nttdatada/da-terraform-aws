@@ -40,6 +40,7 @@ jobs:
       - name: Terraform Workspace Create
         id: create_workspace
         run: terraform workspace new ${{ env.stack }}
+        continue-on-error: true
       
       - name: Terraform Workspace Select
         id: select_workspace
