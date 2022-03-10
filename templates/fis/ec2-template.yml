@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 
-Description: FIS experiment template AWS EC2 - Start Stop - v1.0
+Description: FIS experiment template v1.0
 
 Parameters:
 
