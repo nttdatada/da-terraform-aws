@@ -1,0 +1,11 @@
+#!/bin/bash
+
+TERRAFORM=$(which terraform)
+
+export AWS_SHARED_CREDENTIALS_FILE=~/.aws/credentials
+export AWS_PROFILE=default
+export AWS_REGION=us-east-1
+
+
+$TERRAFORM init
+$TERRAFORM $@ -var-file="environments/$(cat .terraform/environment)/variables.tfvars"
