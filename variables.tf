@@ -4,20 +4,31 @@
 # PROJECT AWS FAULT INJECTION SERVICES
 
 
-### GLOBALS 
-
+### GLOBALS ###
 variable "region" {
 
     description = "Region AWS"
     type        = string
 }
-
 variable "profile" {
 
     description = "Profile authentication AWS"
     default     = ""
     type        = string
 }
+
+
+### AWS FIS - AWS CLOUDFORMATION ###
+variable "template" {
+
+    type = map(object({
+        stack_name = string
+        template_body = string
+        parameters = map(string) 
+    }))
+}
+
+
 
 #### AWS RDS ###
 /*
