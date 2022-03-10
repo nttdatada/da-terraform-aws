@@ -43,7 +43,7 @@ jobs:
       
       - name: Terraform Workspace Select
         id: select_workspace
-        run terraform workspace select ${{ env.stack }}
+        run: terraform workspace select ${{ env.stack }}
 
       - name: Terraform Plan
         id: plan
