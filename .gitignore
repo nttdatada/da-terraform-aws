@@ -21,4 +21,4 @@ terraform.rc
 .env
 .terraform*
 terraform
-*.pem
+.pem
