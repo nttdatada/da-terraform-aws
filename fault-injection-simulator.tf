@@ -3,30 +3,13 @@
 # Date: Qua 9 Mar 2022
 # PROJECT AWS FAULT INJECTION SERVICES - AWS EC2
 
-
-
-### AWS FIS - AWS CLOUDFORMATION ###
-
-module "fault_injection_simulator" {
-
-    source              = "git::https://github.com/nttdatada/terraform-aws-cloudformation.git"
-
-    template            = var.template
-    capabilities        = ["CAPABILITY_IAM"]
-    on_failure          = "ROLLBACK"
-    timeout_in_minutes  = 30
-
-    tags                = var.tags
-
-}
-
-
 ### AWS EC2 ###
 module "ec2_test" {
 
     source = "git::https://github.com/nttdatada/terraform-aws-ec2.git"
 
     ec2_name = "caos-instance-stage"
+    iam_instance_profile = module.instance_profile_ec2_test.instance_profile_name
     ami = data.aws_ami.ubuntu.id
     monitoring = true
     vpc_security_group_ids = ["sg-0cb0f7f9f49b0876d"]
@@ -34,23 +17,46 @@ module "ec2_test" {
     tags = var.tags 
 }
 
-#module "rds" {
-#
-#    source                  = "git::https://github.com/nttdatada/terraform-aws-rds.git"
-#
-#    rds                     = var.rds
-#    tags                    = var.tags
-#    #db_subnet_group_name    = "default-subnet" 
-#    
-#
-#    # Enable db parameter group
-#
-#    enable_db_parameter_group       = false
-#    db_parameter_group_name         = "default-mysql8.0"
-#    db_parameter_group_name_prefix  = ""
-#    db_parameter_group_description  = ""
-#    db_parameter_group_parameters   = []
-#    db_parameter_group_family       = ""
-#    
-#
-#}
+
+### AWS IAM ###
+
+# AWS FIS #
+module "role_fis" {
+
+    source = "git::https://github.com/nttdatada/terraform-aws-iam.git//roles"
+
+    role_name       = "role-default-fis-${terraform.workspace}"
+    role_json       = file("./templates/iam/role-default-fis.json")
+}
+
+
+module "policy_fis" {
+
+    source = "git::https://github.com/nttdatada/terraform-aws-iam.git//policy"
+
+    policy_name = "policy-default-fis-${terraform.workspace}"
+    policy_json = file("./templates/iam/policy-default-fis.json")
+
+    # Policy Attachment
+    policy_attachment_name = "policy-attach-default-fis-${terraform.workspace}"
+    roles_id = [module.role_fis.role-id]
+}
+
+
+# AWS EC2 #
+module "role_ec2_test" {
+
+    source = "git::https://github.com/nttdatada/terraform-aws-iam.git//roles"
+
+    role_name       = "role-default-ec2-${terraform.workspace}"
+    role_json       = file("./templates/iam/role-default-ec2.json")
+}
+
+module "instance_profile_ec2_test" {
+
+    source = "git::https://github.com/nttdatada/terraform-aws-iam.git//iam_instance_profile"
+
+    name_instance_profile = "ec2-test-instance-profile-${terraform.workspace}"
+    role_id               = module.role_ec2_test.role-id 
+
+}
